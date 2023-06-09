@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1000px;
+                 background-color: black;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1xzxryre49s6w6f4lay76kpm3w6cj85vjhgljwy", "label": "stars1xzxryre49s6w6f4lay76kpm3w6cj85vjhgljwy", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1mr5qva9r5nqcfv4gg835clfntrdcm2h5ltfqmr", "label": "stars1mr5qva9r5nqcfv4gg835clfntrdcm2h5ltfqmr", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars12r2yfxsselhlkazdtsjmy4ll628ykl4ff05adw", "label": "stars12r2yfxsselhlkazdtsjmy4ll628ykl4ff05adw", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars12y7zmypd00jndjpdpja7zlqzwwxq6p6fl34yjr", "label": "stars12y7zmypd00jndjpdpja7zlqzwwxq6p6fl34yjr", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars13esm3fvqgw3w6t759nv74js0jm2hsjt48cusul", "label": "stars13esm3fvqgw3w6t759nv74js0jm2hsjt48cusul", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars13zf07a4kqux6qn2q3lvcvc4sywg7ya84tyqa3n", "label": "stars13zf07a4kqux6qn2q3lvcvc4sywg7ya84tyqa3n", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1502yj0d8wac7w5pe4ve36ra4pfsd24txc3gk2a", "label": "stars1502yj0d8wac7w5pe4ve36ra4pfsd24txc3gk2a", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars15urejwvteyy9jqxhajagsm74qm458x2ntr23hh", "label": "stars15urejwvteyy9jqxhajagsm74qm458x2ntr23hh", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars16lfp6q5ykckmky0j7td8ha8tz8f9ndsdsrzrjl", "label": "stars16lfp6q5ykckmky0j7td8ha8tz8f9ndsdsrzrjl", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars19gaa322sx4n5a5az0c4hdzxu8d5q7242ppkmyt", "label": "stars19gaa322sx4n5a5az0c4hdzxu8d5q7242ppkmyt", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars19gmu9qrj3lts2y7hccads06m85k6jkwvd7cyqs", "label": "stars19gmu9qrj3lts2y7hccads06m85k6jkwvd7cyqs", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1acuwpp4vgl2na5lgjpr39uwdzhucnfp9a44unp", "label": "stars1acuwpp4vgl2na5lgjpr39uwdzhucnfp9a44unp", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1ad7vrz7fu3w3wj9wvqjswpqncmeypanwccns3v", "label": "stars1ad7vrz7fu3w3wj9wvqjswpqncmeypanwccns3v", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1adhh5538yjkmeudg5u7n7kugcgxtgjf989x0g0", "label": "stars1adhh5538yjkmeudg5u7n7kugcgxtgjf989x0g0", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1et82dzaa3znywe59ppvkq4mgpadxvqh3y5fpkw", "label": "stars1et82dzaa3znywe59ppvkq4mgpadxvqh3y5fpkw", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1ffhzscwd2lyjhc5pfdrffv025tr5fx7ageyhgv", "label": "stars1ffhzscwd2lyjhc5pfdrffv025tr5fx7ageyhgv", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1fkvdgfnagqpp57ueqanru2plkydfvz9vxma4f5", "label": "stars1fkvdgfnagqpp57ueqanru2plkydfvz9vxma4f5", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1jlv0umw3af0wjxsxads0q9f2xy9zt0ay8yknyq", "label": "stars1jlv0umw3af0wjxsxads0q9f2xy9zt0ay8yknyq", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1jv9akvz4nfqeq4ch8ahl5c80a2vqew44emnfnk", "label": "stars1jv9akvz4nfqeq4ch8ahl5c80a2vqew44emnfnk", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1kauymmr6p7rv6gthh4hy7enlf2e5td0smtzxaf", "label": "stars1kauymmr6p7rv6gthh4hy7enlf2e5td0smtzxaf", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1l4znvwrtxwvvln5xd8tx87c80tssgfh4fufcft", "label": "stars1l4znvwrtxwvvln5xd8tx87c80tssgfh4fufcft", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1qu8k4k85hdg6xhwlmut6650s0rmj37nzynlrsj", "label": "stars1qu8k4k85hdg6xhwlmut6650s0rmj37nzynlrsj", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1qx954yc98e4vjsf2u80ewahvkr8hgev4cmy0gt", "label": "stars1qx954yc98e4vjsf2u80ewahvkr8hgev4cmy0gt", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1sma6x5pents4m4kcjcz5nd3jzdaltvfx8k3cwk", "label": "stars1sma6x5pents4m4kcjcz5nd3jzdaltvfx8k3cwk", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1smazhtt26u48awuzwu3mpwuwnvkc0e8mf6as5s", "label": "stars1smazhtt26u48awuzwu3mpwuwnvkc0e8mf6as5s", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1t3humsgt6jngxsl6xz63mcjpmlt4u7w5sm74xq", "label": "stars1t3humsgt6jngxsl6xz63mcjpmlt4u7w5sm74xq", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1t45x03lezwdh3tgz28wgzyzxk0qa7y3gepafsr", "label": "stars1t45x03lezwdh3tgz28wgzyzxk0qa7y3gepafsr", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1v375mzkgtdpx9end99jqzy2jgw333ntah24net", "label": "stars1v375mzkgtdpx9end99jqzy2jgw333ntah24net", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1vhqmpfj6cndk3qzphx3qzley3y4mrr8w76afke", "label": "stars1vhqmpfj6cndk3qzphx3qzley3y4mrr8w76afke", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1w6hcchehzgmvmd02ufktk2f0zyj3fanmtuywdu", "label": "stars1w6hcchehzgmvmd02ufktk2f0zyj3fanmtuywdu", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1yhnf9fgdwll0eycnr6mkae5hts9mdrqc9m0xr4", "label": "stars1yhnf9fgdwll0eycnr6mkae5hts9mdrqc9m0xr4", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1yqdqtzv7wwmtwy56gcpx9qkwvjf2wnln537l7a", "label": "stars1yqdqtzv7wwmtwy56gcpx9qkwvjf2wnln537l7a", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1ywvn7yp254886vhr0ghqwrh4v9hsjq70auxcjy", "label": "stars1ywvn7yp254886vhr0ghqwrh4v9hsjq70auxcjy", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1zc84uhhmzqtfk3a5s34fqwalt9j5nwdsgz60y3", "label": "stars1zc84uhhmzqtfk3a5s34fqwalt9j5nwdsgz60y3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1zlsrr06gv4at8dz9k0t92mk4dwvns30h8l5p2q", "label": "stars1zlsrr06gv4at8dz9k0t92mk4dwvns30h8l5p2q", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1zplvttvwkwnne6l7naqygj760ecylm2psey40z", "label": "stars1zplvttvwkwnne6l7naqygj760ecylm2psey40z", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1ztfsjdvsefghcjqu8uhw5atw262lq9gnphdwjl", "label": "stars1ztfsjdvsefghcjqu8uhw5atw262lq9gnphdwjl", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1ztylrnlqk6pe4qf7c5az3yya7y4c7tl5ck3dgm", "label": "stars1ztylrnlqk6pe4qf7c5az3yya7y4c7tl5ck3dgm", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars158h6l72w95ef7vn5dgy9a2gn6jw6gzzgzpzuj9", "label": "stars158h6l72w95ef7vn5dgy9a2gn6jw6gzzgzpzuj9", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars15q66q49x00ta8mtvemajw9mrmjps7p5tanyglw", "label": "stars15q66q49x00ta8mtvemajw9mrmjps7p5tanyglw", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1fknp935wmndpcvf3vkp8zxv3lxgzzy2w7dfpnq", "label": "stars1fknp935wmndpcvf3vkp8zxv3lxgzzy2w7dfpnq", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1vs0hkxe8kqhtyx2tmt0mfqsyvefj3fqntqrtmm", "label": "stars1vs0hkxe8kqhtyx2tmt0mfqsyvefj3fqntqrtmm", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "stars1xt4jut0jm2m68c4e4cfwa45q6v0sc3eqjm9uex", "label": "stars1xt4jut0jm2m68c4e4cfwa45q6v0sc3eqjm9uex", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars12r2yfxsselhlkazdtsjmy4ll628ykl4ff05adw", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "1770.0", "title": "1770.0", "to": "stars12r2yfxsselhlkazdtsjmy4ll628ykl4ff05adw", "value": 1770.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6550.0", "title": "6550.0", "to": "stars12y7zmypd00jndjpdpja7zlqzwwxq6p6fl34yjr", "value": 6550.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6550.0", "title": "6550.0", "to": "stars13esm3fvqgw3w6t759nv74js0jm2hsjt48cusul", "value": 6550.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "26849.932635", "title": "26849.932635", "to": "stars13zf07a4kqux6qn2q3lvcvc4sywg7ya84tyqa3n", "value": 26849.932635}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "17210.0", "title": "17210.0", "to": "stars1502yj0d8wac7w5pe4ve36ra4pfsd24txc3gk2a", "value": 17210.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "3000.0", "title": "3000.0", "to": "stars15urejwvteyy9jqxhajagsm74qm458x2ntr23hh", "value": 3000.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "21054.0", "title": "21054.0", "to": "stars15urejwvteyy9jqxhajagsm74qm458x2ntr23hh", "value": 21054.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1xzxryre49s6w6f4lay76kpm3w6cj85vjhgljwy", "label": "15000.0", "title": "15000.0", "to": "stars15urejwvteyy9jqxhajagsm74qm458x2ntr23hh", "value": 15000.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "3200.0", "title": "3200.0", "to": "stars16lfp6q5ykckmky0j7td8ha8tz8f9ndsdsrzrjl", "value": 3200.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1xzxryre49s6w6f4lay76kpm3w6cj85vjhgljwy", "label": "5000.0", "title": "5000.0", "to": "stars16lfp6q5ykckmky0j7td8ha8tz8f9ndsdsrzrjl", "value": 5000.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars19gaa322sx4n5a5az0c4hdzxu8d5q7242ppkmyt", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6560.0", "title": "6560.0", "to": "stars19gmu9qrj3lts2y7hccads06m85k6jkwvd7cyqs", "value": 6560.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "116739.930583", "title": "116739.930583", "to": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "value": 116739.930583}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1xzxryre49s6w6f4lay76kpm3w6cj85vjhgljwy", "label": "3592.0", "title": "3592.0", "to": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "value": 3592.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6550.0", "title": "6550.0", "to": "stars1acuwpp4vgl2na5lgjpr39uwdzhucnfp9a44unp", "value": 6550.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1mr5qva9r5nqcfv4gg835clfntrdcm2h5ltfqmr", "label": "1750.0", "title": "1750.0", "to": "stars1ad7vrz7fu3w3wj9wvqjswpqncmeypanwccns3v", "value": 1750.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1mr5qva9r5nqcfv4gg835clfntrdcm2h5ltfqmr", "label": "1750.0", "title": "1750.0", "to": "stars1adhh5538yjkmeudg5u7n7kugcgxtgjf989x0g0", "value": 1750.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars1et82dzaa3znywe59ppvkq4mgpadxvqh3y5fpkw", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "1760.0", "title": "1760.0", "to": "stars1et82dzaa3znywe59ppvkq4mgpadxvqh3y5fpkw", "value": 1760.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1mr5qva9r5nqcfv4gg835clfntrdcm2h5ltfqmr", "label": "1750.0", "title": "1750.0", "to": "stars1ffhzscwd2lyjhc5pfdrffv025tr5fx7ageyhgv", "value": 1750.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "3700.0", "title": "3700.0", "to": "stars1fkvdgfnagqpp57ueqanru2plkydfvz9vxma4f5", "value": 3700.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "4250.0", "title": "4250.0", "to": "stars1fkvdgfnagqpp57ueqanru2plkydfvz9vxma4f5", "value": 4250.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "8970.0", "title": "8970.0", "to": "stars1jlv0umw3af0wjxsxads0q9f2xy9zt0ay8yknyq", "value": 8970.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "1770.0", "title": "1770.0", "to": "stars1jlv0umw3af0wjxsxads0q9f2xy9zt0ay8yknyq", "value": 1770.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1mr5qva9r5nqcfv4gg835clfntrdcm2h5ltfqmr", "label": "1750.0", "title": "1750.0", "to": "stars1jv9akvz4nfqeq4ch8ahl5c80a2vqew44emnfnk", "value": 1750.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "15560.0", "title": "15560.0", "to": "stars1kauymmr6p7rv6gthh4hy7enlf2e5td0smtzxaf", "value": 15560.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars1l4znvwrtxwvvln5xd8tx87c80tssgfh4fufcft", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "4250.0", "title": "4250.0", "to": "stars1l4znvwrtxwvvln5xd8tx87c80tssgfh4fufcft", "value": 4250.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "4800.0", "title": "4800.0", "to": "stars1qu8k4k85hdg6xhwlmut6650s0rmj37nzynlrsj", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars1qx954yc98e4vjsf2u80ewahvkr8hgev4cmy0gt", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "3510.0", "title": "3510.0", "to": "stars1qx954yc98e4vjsf2u80ewahvkr8hgev4cmy0gt", "value": 3510.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "10800.0", "title": "10800.0", "to": "stars1sma6x5pents4m4kcjcz5nd3jzdaltvfx8k3cwk", "value": 10800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "2400.0", "title": "2400.0", "to": "stars1smazhtt26u48awuzwu3mpwuwnvkc0e8mf6as5s", "value": 2400.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6560.0", "title": "6560.0", "to": "stars1smazhtt26u48awuzwu3mpwuwnvkc0e8mf6as5s", "value": 6560.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "71669.359776", "title": "71669.359776", "to": "stars1t3humsgt6jngxsl6xz63mcjpmlt4u7w5sm74xq", "value": 71669.359776}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6550.0", "title": "6550.0", "to": "stars1t45x03lezwdh3tgz28wgzyzxk0qa7y3gepafsr", "value": 6550.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6550.0", "title": "6550.0", "to": "stars1v375mzkgtdpx9end99jqzy2jgw333ntah24net", "value": 6550.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars1vhqmpfj6cndk3qzphx3qzley3y4mrr8w76afke", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "1760.0", "title": "1760.0", "to": "stars1vhqmpfj6cndk3qzphx3qzley3y4mrr8w76afke", "value": 1760.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1mr5qva9r5nqcfv4gg835clfntrdcm2h5ltfqmr", "label": "1750.0", "title": "1750.0", "to": "stars1w6hcchehzgmvmd02ufktk2f0zyj3fanmtuywdu", "value": 1750.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars1yhnf9fgdwll0eycnr6mkae5hts9mdrqc9m0xr4", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "8800.0", "title": "8800.0", "to": "stars1yhnf9fgdwll0eycnr6mkae5hts9mdrqc9m0xr4", "value": 8800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "17850.0", "title": "17850.0", "to": "stars1yqdqtzv7wwmtwy56gcpx9qkwvjf2wnln537l7a", "value": 17850.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6550.0", "title": "6550.0", "to": "stars1ywvn7yp254886vhr0ghqwrh4v9hsjq70auxcjy", "value": 6550.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars1zc84uhhmzqtfk3a5s34fqwalt9j5nwdsgz60y3", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "1750.0", "title": "1750.0", "to": "stars1zc84uhhmzqtfk3a5s34fqwalt9j5nwdsgz60y3", "value": 1750.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "8300.0", "title": "8300.0", "to": "stars1zlsrr06gv4at8dz9k0t92mk4dwvns30h8l5p2q", "value": 8300.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars1zplvttvwkwnne6l7naqygj760ecylm2psey40z", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "1760.0", "title": "1760.0", "to": "stars1zplvttvwkwnne6l7naqygj760ecylm2psey40z", "value": 1760.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "1750.0", "title": "1750.0", "to": "stars1ztfsjdvsefghcjqu8uhw5atw262lq9gnphdwjl", "value": 1750.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "6550.0", "title": "6550.0", "to": "stars1ztylrnlqk6pe4qf7c5az3yya7y4c7tl5ck3dgm", "value": 6550.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "30100.0", "title": "30100.0", "to": "stars158h6l72w95ef7vn5dgy9a2gn6jw6gzzgzpzuj9", "value": 30100.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars19tth6cmy8mygftnvnls709ynnv882q8ge8llja", "label": "4800.0", "title": "4800.0", "to": "stars15q66q49x00ta8mtvemajw9mrmjps7p5tanyglw", "value": 4800.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "51000.0", "title": "51000.0", "to": "stars1fknp935wmndpcvf3vkp8zxv3lxgzzy2w7dfpnq", "value": 51000.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1xzxryre49s6w6f4lay76kpm3w6cj85vjhgljwy", "label": "81870.0", "title": "81870.0", "to": "stars1vs0hkxe8kqhtyx2tmt0mfqsyvefj3fqntqrtmm", "value": 81870.0}, {"arrows": "to", "font": {"align": "middle"}, "from": "stars1kgc2pfavpt03kjpkw27znh3aag6z7840x8f5ys", "label": "7760.0", "title": "7760.0", "to": "stars1xt4jut0jm2m68c4e4cfwa45q6v0sc3eqjm9uex", "value": 7760.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
